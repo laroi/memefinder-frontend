@@ -1,0 +1,15 @@
+.wrapper {
+	padding: 56px 20px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    height: calc(var(--vh, 1vh) * 100);
+}
+.textel {
+    margin-top:20px;
+}
+.button {
+    margin-top:50px;
+}

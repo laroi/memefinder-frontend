@@ -209,6 +209,7 @@ const ListComponent = (setDrawer, setAboutusopen, setInsightsOpen) => (
           {getRegister(setDrawer)}
           {getLogout(setDrawer)}
           {getCreateNew(setDrawer)}
+          <Divider />
           <ListItem button onClick={()=>{setDrawer(false); setInsightsOpen(true)}} >
             <ListItemIcon><AssessmentIcon /> </ListItemIcon>
             <ListItemText primary={'Insights'} />
@@ -327,7 +328,6 @@ export default function Header(props) {
         <Match path="*">
         { ({ matches, path, url }) => { 
             setState(stateObj)
-            console.log(stateObj);
             return (
                 <Grid item container direction ={'row'}>
                     <Grid item xs={2}  sm={2}  md={2}  lg={1}>

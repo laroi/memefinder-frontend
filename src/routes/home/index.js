@@ -32,22 +32,33 @@ const [count, setCount] = useState(1);
         }
         if (props.movie) {
             opts.movie = props.movie;
+            updateState('movie', props.movie)
         }
         if (props.actor) {
             opts.actor = props.actor;
+            updateState('actor', props.actor)
         }
         if (props.character) {
             opts.character = props.character;
+            updateState('character', props.character)
         }
         if (props.tag) {
             opts.tag = props.tag;
+            updateState('tag', props.tag)
         }
         if (props.context) {
             opts.context = props.context;
+            updateState('context', props.context)
         }
         if (props.language) {
             opts.language = props.language;
+            updateState('language', props.language)
         }
+        if (props.user) {
+          opts.user = props.user;
+          updateState('user', props.user)
+          updateState('username', props.username)
+      }
         if (props.isFavorite) {
             opts.isFavorite = props.isFavorite;
         }

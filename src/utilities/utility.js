@@ -47,6 +47,9 @@ const navigate = (mainRoute) => {
     if (stateObj.isApproved) {
         url += `isApproved=${stateObj.isApproved}&`
     }
+    if (stateObj.user) {
+        url += `user=${stateObj.user}&`
+    }
         route(url, true)
 }
 let chipObj = () => {
@@ -77,6 +80,9 @@ let chipObj = () => {
     }
     if (stateObj.isApproved) {
         retObj.push({type: 'filter', label: 'unApproved', val: stateObj.isApproved})
+    }
+    if (stateObj.user) {
+        retObj.push({type: 'filter', label: 'user', val: stateObj.username})
     }
     return retObj;
 }

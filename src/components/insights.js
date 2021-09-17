@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import { useState, useEffect, useContext } from 'preact/hooks';
-import { withStyles } from '@material-ui/core/styles';
-import {Accordion, AccordionDetails, AccordionSummary} from '@mui/material';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import {Accordion, AccordionDetails, AccordionSummary, Chip} from '@mui/material';
 /*import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -28,7 +28,32 @@ const styles = (theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+
 });
+const useStyles = makeStyles((theme) => ({
+    dialog: {
+        maxWidth:'1000px',
+        width: '60%'
+    },
+  dialogBody: {
+    width:'90%'
+  },
+  dialogPaper: {
+    minHeight: '80vh',
+    maxHeight: '80vh',
+  },
+  accordTitleWrap: {
+      display:'flex',
+      width: '100%',
+      justifyContent:'space-between'
+  },
+  accordTitle: {
+      fontWeight: 'bold'
+  },
+  indwrap: {display: 'flex', height:'50px', alignItems: 'center', cursor: 'pointer'},
+  indname: {marginRight:'50px', textAlign:'left'},
+  indcount: {}
+}));
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
@@ -55,8 +80,37 @@ const DialogActions = withStyles((theme) => ({
     padding: theme.spacing(1),
   },
 }))(MuiDialogActions);
-
+const AccordionContent = ({key, title, obj})=> {
+    const classes = useStyles();
+    const titleMap = {
+        movieList : {title: 'Movies', loc: '?movie='},
+        userList : {title: 'Users', loc:'?user='},
+        langList : {title: 'Language', loc:'?language='},
+        actorList : {title: 'Actors', loc: '?actor='}
+    }
+  const getUrl = (x) => {
+    if (title==='userList') {
+      return ()=>{window.location=`${titleMap[title].loc}${x._id}&username=${x.name}`}
+    }
+    return ()=>{window.location=`${titleMap[title].loc}${x._id}`}
+  }
+  return (
+    <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <div className={classes.accordTitleWrap}> <div className={classes.accordTitle}>{titleMap[title].title}</div><div><Chip label={obj.length} color="primary"/></div></div>
+        </AccordionSummary>
+        <AccordionDetails>
+          {obj.map(x=>(x._id && (<div className={classes.indwrap} onClick={getUrl(x)}><div className={classes.indname}>{x.name || x._id}</div><div className={classes.indcount}><Chip label={x.count}/></div></div>)))}
+        </AccordionDetails>
+      </Accordion>
+  )
+}
 export default function Insights(props) {
+    const classes = useStyles();
   const [details, setDetails] = useState({});
   useEffect(() => {
     (async () => {
@@ -67,14 +121,15 @@ export default function Insights(props) {
             setDetails(_details)
     })();
 }, [])
+console.log(details)
   return (
     <div>
-      <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
+      <Dialog classes={{ paper: classes.dialogPaper }} fullWidth maxWidth="md" onClose={props.handleClose} sx={{ width: '800px'}}aria-labelledby="customized-dialog-title" open={props.open}>
         <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
          Inights
         </DialogTitle>
-        <DialogContent dividers>
-         
+        <DialogContent className={classes.dialogBody} dividers>
+        <div>{Object.keys(details).map(detail => <AccordionContent key={detail} title={detail} obj={details[detail]}/>)}</div>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={props.handleClose} color="primary">

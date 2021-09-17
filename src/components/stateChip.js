@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const handleDelete = (item) => {
     return (e)=> {
+        console.log(item);
         if (item.label === 'search') {
             updateState('searchTxt', '');
             navigate('/')
@@ -56,6 +57,10 @@ const handleDelete = (item) => {
             updateState('isFavorite', false);
             navigate('/')
         }
+        if (item.label === 'user') {
+          updateState('user', false);
+          navigate('/')
+      }
     }
 }
 export default function StateChip(props) {

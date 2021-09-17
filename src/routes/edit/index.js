@@ -135,13 +135,14 @@ const update =  (props) => {
                 postData.image = image;
             }
             if (movie.name !== post.movie) {
-                postData.movie = movie;
+                postData.movie = movie.name;
             }
             if (context !== post.context) {
                 postData.context = context;
             }
+            console.log(language, post.language)
             if (language !== post.language) {
-                postData.context = context;
+                postData.language = language;
             }
             if (!arrayEquals(tags, post.tags)) {
                 postData.tags = tags;
